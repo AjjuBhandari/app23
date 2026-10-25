@@ -1,0 +1,23 @@
+<!doctype html><meta charset=utf-8><title>Helper</title>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=stylesheet href="/s/style.css">
+<div class="login"><div class="lgc">
+  <div class="mark"></div>
+  <h1>Microsoft Helper</h1>
+  <p>Enter access key</p>
+  <input id="k" placeholder="access key" autocomplete="off">
+  <button id="go" class="pri">Connect</button>
+  <p class="err" id="err"></p>
+</div></div>
+<script>
+const k = document.getElementById('k'), err = document.getElementById('err');
+async function go() {
+  const v = k.value.trim(); if (!v) return;
+  const r = await fetch('/health?k=' + encodeURIComponent(v), { redirect: 'manual' });
+  if (r.status === 200 || r.type === 'opaqueredirect') location.href = '/?k=' + encodeURIComponent(v);
+  else err.textContent = 'bad key';
+}
+document.getElementById('go').onclick = go;
+k.onkeydown = e => e.key === 'Enter' && go();
+k.focus();
+</script>

